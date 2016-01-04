@@ -25,7 +25,7 @@ public void readContacts(){
 
                         int phonetype = pCur.getInt(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                         String customLabel = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
-                        String phoneLabel = " phoneType: " + (String) ContactsContract.CommonDataKinds.Email.getTypeLabel(this                                .getResources(), phonetype, customLabel);
+                        String phoneLabel = " phoneType: " + (String) ContactsContract.CommonDataKinds.Email.getTypeLabel(this.getResources(), phonetype, customLabel);
                         output.append("\"" + phone + "\"");
                         output.append(phoneLabel);
 
