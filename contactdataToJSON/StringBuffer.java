@@ -1,3 +1,6 @@
+//Research into conversion of phone's contact data into a single JSON string. Said string is then emailed to specified email as a means of checking. 
+//Currently, the code does not work as intended, as the JSON string remains flawed. Have tried other attempts that involve putting each specific contact detail into an arraylist and then pushing said arraylists into dictionaries. Doing so causes contacts to be repeated. This version stores all data into one long string buffer. 
+//This method does collect all wanted data, but creates an unwanted format.
 public void readContacts(){
 
         HashMap<String, String> contacts = new HashMap<>();
@@ -22,7 +25,7 @@ public void readContacts(){
 
                         int phonetype = pCur.getInt(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                         String customLabel = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
-                        String phoneLabel = " phoneType: " + (String) ContactsContract.CommonDataKinds.Email.getTypeLabel(this.getResources(), phonetype, customLabel);
+                        String phoneLabel = " phoneType: " + (String) ContactsContract.CommonDataKinds.Email.getTypeLabel(this                                .getResources(), phonetype, customLabel);
                         output.append("\"" + phone + "\"");
                         output.append(phoneLabel);
 
