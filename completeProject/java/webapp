@@ -36,10 +36,38 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.support.v4.app.NotificationCompat;
+
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+
 public class webapp extends Activity {
     WebView mainWebView;
     String name;
+    int mId;
+    boolean status = false;
+    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+        .setSmallIcon(R.mipmap.ic_notification_error)
+        .setContentTitle("Internet not Detected")
+        .setContentText("Internet definitely not detected");
 
+public boolean checkInternetConnection()
+    {
+        ConnectivityManager connectivity = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivity != null) {
+            NetworkInfo mobile = connectivity.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wyfy = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (wyfy.getState() == NetworkInfo.State.CONNECTED || mobile.getState() == NetworkInfo.State.CONNECTED) {
+                return true;
+            } else{
+            }
+
+        } return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +88,19 @@ public class webapp extends Activity {
 
 
         mainWebView.loadUrl("http://headsupcore-dev.ngrok.com/schedule/");
-
+        
+        status = checkInternetConnection();
+        if(status) {
+            Intent resultIntent = new Intent(this, ResultActivity.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addParentStack(ResultActivity.class);
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(resultPendingIntent);
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService((Context.NOTIFICATION_SERVICE));
+            mNotificationManager.notify(mId, mBuilder.build());
+        }
+        else{}
 
 
     }
